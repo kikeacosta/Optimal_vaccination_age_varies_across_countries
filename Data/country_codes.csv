@@ -1,0 +1,41 @@
+Country,hmd_name,hmd_code,wpp_name
+Australia,Australia,AUS,Australia
+Austria,Austria,AUT,Austria
+Belgium,Belgium,BEL,Belgium
+Bulgaria,Bulgaria,BGR,Bulgaria
+Canada,Canada,CAN,Canada
+Switzerland,Switzerland,CHE,Switzerland
+Chile,Chile,CHL,Chile
+Czechia,Czechia,CZE,Czechia
+Germany,Germany,DEUTNP,Germany
+Denmark,Denmark,DNK,Denmark
+Spain,Spain,ESP,Spain
+Estonia,Estonia,EST,Estonia
+Finland,Finland,FIN,Finland
+France,France,FRATNP,France
+Northern Ireland,Northern Ireland,GBR_NIR,Northern Ireland
+Scotland,Scotland,GBR_SCO,Scotland
+England and Wales,England and Wales,GBRTENW,England_Wales
+Greece,Greece,GRC,Greece
+Croatia,Croatia,HRV,Croatia
+Hungary,Hungary,HUN,Hungary
+Iceland,Iceland,ISL,Iceland
+Israel,Israel,ISR,Israel
+Italy,Italy,ITA,Italy
+South Korea,Republic of Korea,KOR,Republic of Korea
+Lithuania,Lithuania,LTU,Lithuania
+Luxembourg,Luxembourg,LUX,Luxembourg
+Latvia,Latvia,LVA,Latvia
+Netherlands,Netherlands,NLD,Netherlands
+Norway,Norway,NOR,Norway
+New Zealand,New Zealand,NZL_NP,New Zealand
+Poland,Poland,POL,Poland
+Portugal,Portugal,PRT,Portugal
+Russia,Russia,RUS,Russian Federation
+Slovakia,Slovakia,SVK,Slovakia
+Slovenia,Slovenia,SVN,Slovenia
+Sweden,Sweden,SWE,Sweden
+USA,United States,USA,United States of America
+United Kingdom,United Kingdom,GBR_NP,United Kingdom
+Taiwan,Taiwan,TWN,"China, Taiwan Province of China"
+Ukraine,Ukraine,UKR,Ukraine
