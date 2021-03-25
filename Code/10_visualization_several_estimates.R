@@ -91,12 +91,13 @@ all_cause_mx3 <-
   mutate(mx_std = mx_all * fct_adj) %>% 
   select(Country, Age, mx_std)
 
-
 # selected countries for Figure 1
 cts_temp <- c("USA", "Chile", "Peru")
 # Ordering Countries as factor variable
 labs_order <- c("USA", "Chile", "Peru")
+
 # selecting scenarios
+unique(age_rates_yll_optimal$Scenario)
 scns <- c("Central ex")
 
 age_rates_yll2 <- 
@@ -116,6 +117,14 @@ age_rates_yll2 <-
                                            "Theoretical",
                                            "All-cause")))
   
+yll_ages <- 
+  age_rates_yll_optimal %>% 
+  filter(Country %in% cts_temp,
+         Scenario %in% c("Central ex", "Excess")) %>% 
+  mutate(Scenario = recode(Scenario,
+                           "Central ex" = "COVID-19",
+                           "Excess" = "Excess deaths"),
+         Country = factor(Country, levels = labs_order))
 
 #=================================================================================================#
 #
@@ -145,10 +154,10 @@ p1 <-
   theme_bw()+
   labs(y = "Death Rate", x = "Age")+
   theme(
-    legend.position = c(0.93, 0.2),
+    legend.position = c(0.92, 0.2),
     legend.background = element_rect(fill="transparent"),
-    strip.background = element_rect(fill = "transparent"),
     legend.title = element_blank(),
+    strip.background = element_rect(fill = "transparent"),
     strip.text = element_text(size = 10, face = "bold"),
     # strip.text = element_text(size = 10),
     axis.title.x = element_blank(),
@@ -156,22 +165,25 @@ p1 <-
     axis.text.y = element_text(angle = 90, hjust = .5, size = 8)
   )
     
-p2 <- age_rates_yll2 %>% 
-  filter(mid_point >= 30) %>% 
+p2 <- yll_ages %>% 
+  filter(mid_point >= 5) %>% 
   ggplot()+
-  geom_line(aes(mid_point, yll), size = 1)+
-  geom_point(aes(mid_point, yll), alpha = 1, size = 1.5, shape = 1)+
+  geom_line(aes(mid_point, yll, col = Scenario), size = 1)+
+  geom_point(aes(mid_point, yll, col = Scenario), alpha = 1, size = 1.5, shape = 1)+
   scale_x_continuous(breaks = seq(0, 100, 20))+
+  scale_color_manual(values = c("black", "#83c5be"))+
   facet_wrap(~ Country, scales = "free", nrow = 1)+
   coord_cartesian(xlim = c(35, 100))+
   theme_bw()+
   labs(y = "Years Saved", x = "Age")+
-  theme(strip.background = element_blank(),
-        strip.text.x = element_blank(),
-        axis.text.y = element_text(angle = 90, hjust = .5, size = 8))
+  theme(
+    legend.position = c(0.92, 0.15),
+    legend.background = element_rect(fill="transparent"),
+    legend.title = element_blank(),
+    strip.background = element_blank(),
+    strip.text.x = element_blank(),
+    axis.text.y = element_text(angle = 90, hjust = .5, size = 8))
 
-
-# plot_grid(p1, p2, labels = c('A', 'B'), label_size = 12, ncol = 1)
 plot_grid(p1, p2, labels = c('A', 'B'), label_size = 12, ncol = 1)
 ggsave("Figures/all_countries_mx_ex_yll_counterfactual_combined.png", width = 10, height = 6)
 
@@ -285,3 +297,4 @@ cross_mx_all %>%
   )
 ggsave("Figures/ages_intervals_all_measures.png", width = 8, height = 10)
 
+unique(cross_mx_all$Country)

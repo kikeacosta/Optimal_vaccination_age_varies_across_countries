@@ -13,9 +13,13 @@
 
 library(tidyverse)
 library(here)
+library(lubridate)
 
-db_exc_stmf <- read_csv("Data/cumulative_excess_age_2020_2021.csv")
-db_exc_mx_pe <- read_csv("Data/cumulative_excess_age_2020_2021_mx_pe.csv")
+db_exc_stmf <- read_csv("Data/cumulative_excess_age_2020_2021.csv",
+                        col_types = cols(.default = "c"))
+# db_exc_mx_pe <- read_csv("Data/cumulative_excess_age_2020_2021_mx_pe.csv")
+db_exc_orig <- read_csv("Data/cumulative_excess_original_ages_2020_2021.csv",
+                        col_types = cols(.default = "c"))
 
 # Confirmed deaths data to aggregate ages in the same intervals 
 covid19_deaths <- read_rds("Output/covid19_deaths.rds") %>% 
@@ -23,28 +27,33 @@ covid19_deaths <- read_rds("Output/covid19_deaths.rds") %>%
 
 
 # excluding a few countries were age distribution of deaths was heavily impossed
-to_exclude <- c("England_Wales", "Canada")
+# to_exclude <- c("England_Wales", "Canada")
+to_exclude <- c("Chile", "USA")
 
 # adjusting some typos and values
 db_exc2 <- db_exc_stmf %>% 
-  mutate(Country = case_when(Country == "Northern Irland" ~ "Northern Ireland",
-                             TRUE ~ Country),
-         Sex = recode(Sex,
+  mutate(Sex = recode(Sex,
                       "b" = "t")) %>% 
-  filter(!Country %in% to_exclude)
+  filter(!Country %in% to_exclude,
+         Sex == "t")
 
 # selecting last available date in each country
 db_exc3 <- 
   db_exc2 %>%
-  bind_rows(db_exc_mx_pe %>% 
-              mutate(Sex = "t")) %>% 
+  bind_rows(db_exc_orig %>% 
+              filter(Sex == "t")) %>% 
+  mutate(Date = ymd(Date)) %>% 
   filter(Date <= "2021-01-17") %>% 
   group_by(Country) %>% 
   filter(Date == max(Date)) %>% 
   ungroup() %>% 
   rename(Excess = CumEpi) %>% 
-  select(-CumExc, -CumPos, -Exposure)
+  select(-CumExc, -CumPos, -Exposure) %>% 
+  mutate(Excess = as.double(Excess),
+         Age = as.integer(Age),
+         Country = ifelse(Country == "United States", "USA", Country))
 
+unique(db_exc3$Country)
 # selecting countries with at least 500 deaths
 cts_500plus <- 
   db_exc3 %>% 

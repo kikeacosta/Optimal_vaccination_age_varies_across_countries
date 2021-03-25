@@ -152,6 +152,9 @@ pop_wpp <-
 # merging HMD and WPP population estimates
 pop <- bind_rows(pop_wpp, pop_hmd2)
 
+# saving population in sigle-year ages
+write_rds(pop, "Output/pop_single_year_age.rds")
+
 #=================================================================================================#
 #
 #   ASSIGNING AGE GROUPS

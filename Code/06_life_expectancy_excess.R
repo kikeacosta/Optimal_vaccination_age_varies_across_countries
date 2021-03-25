@@ -38,12 +38,12 @@ library(readxl)
 #=================================================================================================#
 
 db_excess <- read_rds("Output/cumulative_excess_selected_countries.rds")
-
 unique(db_excess$Country)
 
 hmd_cts_cds <- read_csv("Data/country_codes.csv") 
 
-cts_all <- db_excess %>% 
+cts_all <- db_excess  %>% 
+  mutate(Country = ifelse(Country == "USA", "United States", Country)) %>% 
   select(Country) %>% 
   unique() 
 
@@ -229,7 +229,7 @@ for(ct in cts){
 }
 
 # visual inspection
-ct <- "Republic of Korea"
+ct <- "USA"
 sx <- "t"
 ltbs_all %>%
   filter(Country == ct,

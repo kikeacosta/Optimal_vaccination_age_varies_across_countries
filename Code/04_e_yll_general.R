@@ -51,9 +51,13 @@ library(here)
 covid19_deaths <- read_rds('Output/covid19_deaths.rds') 
 unique(covid19_deaths$Country)
 
+# covid19_deaths <- read_rds("Output/covid19_deaths_gmprtz.rds")
+# unique(covid19_deaths$Country)
+
+
 # List of countries in the example:
-countries_list <- unique(covid19_deaths$Country)
-countries_example <- countries_list
+# countries_list <- unique(covid19_deaths$Country)
+# countries_example <- countries_list
 
 # Life expectancies
 #=================================================================================================#
@@ -89,8 +93,8 @@ unique(pop_all$Country) %>% sort()
 
 age_rates_yll <- 
   covid19_deaths %>% 
-  left_join(pop_all) %>% 
   left_join(sle_adjusted) %>% 
+  left_join(pop_all) %>% 
   filter(Sex == "t") %>% 
   # mortality rates (mx) and expected number of YLL per Age, given the risk of death
   mutate(mx = Deaths / Population,

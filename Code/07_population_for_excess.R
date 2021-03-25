@@ -39,7 +39,8 @@ unique(db_excess$Country)
 
 hmd_cts_cds <- read_csv("Data/country_codes.csv") 
 
-cts_all <- db_excess %>% 
+cts_all <- db_excess  %>% 
+  mutate(Country = ifelse(Country == "USA", "United States", Country)) %>% 
   select(Country) %>% 
   unique() 
 
@@ -157,7 +158,8 @@ pop_wpp <-
   bind_rows(pop_wpp_t, pop_wpp_f, pop_wpp_m)
 
 # merging HMD and WPP population estimates
-pop <- bind_rows(pop_wpp, pop_hmd2)
+pop <- bind_rows(pop_wpp, pop_hmd2) %>% 
+  mutate(Country = ifelse(Country == "United States", "USA", Country))
 
 #=================================================================================================#
 #
