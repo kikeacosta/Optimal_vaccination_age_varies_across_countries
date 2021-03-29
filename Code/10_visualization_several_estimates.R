@@ -186,6 +186,7 @@ p2 <- yll_ages %>%
 
 plot_grid(p1, p2, labels = c('A', 'B'), label_size = 12, ncol = 1)
 ggsave("Figures/all_countries_mx_ex_yll_counterfactual_combined.png", width = 10, height = 6)
+ggsave("Figures/all_countries_mx_ex_yll_counterfactual_combined.pdf", width = 10, height = 6)
 
 
 # ==================================================== #
@@ -296,5 +297,6 @@ cross_mx_all %>%
     panel.border = element_rect(colour = "black", fill = NA, size = 1.2)
   )
 ggsave("Figures/ages_intervals_all_measures.png", width = 8, height = 10)
+ggsave("Figures/ages_intervals_all_measures.pdf", width = 8, height = 10)
 
 unique(cross_mx_all$Country)
